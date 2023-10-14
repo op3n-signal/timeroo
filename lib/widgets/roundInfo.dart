@@ -12,7 +12,7 @@ class RoundInfo extends StatefulWidget {
 }
 
 class _RoundInfoState extends State<RoundInfo> {
-  String roundText;
+  String? roundText;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _RoundInfoState extends State<RoundInfo> {
     setState(() {
       this.roundText = this.widget._isBreak == true ? 'Break' : 'Round ' + this.widget._round.toString();      
     });
-    return this.roundText;
+    return this.roundText ?? '';
   }
 
   @override

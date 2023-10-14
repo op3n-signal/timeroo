@@ -10,17 +10,16 @@ class PromptDialog extends StatelessWidget {
     return Container(
       child: AlertDialog(
           title: const Text('Confirm'),
-          content: const Text('Are you sure?'),
+          content: const Text('Are you sure? The timer will be stopped.'),
           actions: [
-            FlatButton(
+            TextButton(
               child: const Text('Yes'), 
               onPressed: () { 
-                if(this._stop != null)
-                  this._stop(); 
+                this._stop(); 
                 Navigator.pop(context, true);
               },
             ),
-            FlatButton(
+            TextButton(
               child: const Text('Cancel'), 
               onPressed: () {
                 Navigator.pop(context, false);

@@ -1,144 +1,119 @@
 import 'package:flutter/material.dart';
-
-import 'dart:async';
+import 'package:timeroo/helpers/boxing-timer.dart';
+import 'package:timeroo/models/timer_details_model.dart';
+import 'package:timeroo/widgets/roundInfo.dart';
+import 'package:timeroo/widgets/shared/button.dart';
+import 'package:timeroo/widgets/shared/dialog.dart';
+import 'package:timeroo/widgets/time.dart';
 
 import '../utility/file.dart';
-import '../widgets/controls.dart';
-import '../widgets/roundInfo.dart';
-import '../widgets/time.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
-  
+  const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   final Audio _soundPlayer = Audio();
-  Timer _timer;
-  int _round;
-  int _minutes;
-  int _seconds;
-  int _roundSeconds;
-  int _breakSeconds;
-  bool _isBreak;
-  bool _isStopped;
-  bool _skip;
+  final boxingTimer = BoxingTimer();
+  String _buttonText = 'Start';
 
   @override
   void initState() {
-    _skip = false;
-    _isStopped = true;
-    _round = 1;
-    _minutes = 0;
-    _roundSeconds = 5;
-    _seconds = _roundSeconds;
-    _breakSeconds = 0;
-    _isBreak = false;
+    boxingTimer.tmrDetails = TimerDetails();
+    boxingTimer.tmrDetails.seconds = boxingTimer.tmrDetails.roundSeconds;
     super.initState();
   }
 
-  void _startInterval() {
-    _timer = Timer.periodic(new Duration(seconds: 1), (t) {
-      //play audio clips
-      _audioClipHandler();
-      //increment mins, seconds
-      _incRoundInfo();
+  void _start() {
+    setState(() {
+      this._buttonText = 'Pause';
     });
+
+    //play audio clips
+    //_audioClipHandler();
+
+    boxingTimer.startInterval(setState, boxingTimer.tmrDetails);
+  }
+
+  void _pause() {
+    setState(() {
+      this._buttonText = 'Resume';
+    });
+
+    this._pauseInterval();
+  }
+
+  void _prompt(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PromptDialog(boxingTimer.stopInterval);
+        }).then((value) => {
+          if (value == true) {_reset()}
+        });
   }
 
   void _pauseInterval() {
-    this._timer.cancel();
+    this.boxingTimer.cancelTimer();
   }
 
-  void _stopInterval() {
-    if (this._timer != null) {
-      this._timer.cancel();
-      setState(() {
-        this._isStopped = true;
-        this._isBreak = false;
-        this._roundSeconds = 5;
-        this._seconds = this._roundSeconds;
-        this._minutes = 0;
-        this._round = 1;
-      });
-    }
-  }
-
-  void _audioClipHandler() {
-    if (this._minutes == 0 && (this._seconds == 0 || this._seconds == 10)) {
-      if (this._seconds == 0) {
-        if (_soundPlayer.cache.fixedPlayer.state != Audio.playState)
-          _soundPlayer.play(Audio.bell);
-      } else {
-        if (_soundPlayer.cache.fixedPlayer.state != Audio.playState)
-          _soundPlayer.play(Audio.sticks);
-      }
-    }
-  }
-
-  void _incRoundInfo() {
+  void _reset() {
     setState(() {
-      if (this._skip) this._skip = false;
-
-      if (this._minutes == 0 && this._seconds == 0) {
-        if (this._isBreak == false && this._isStopped == false) {
-          this._isBreak = true;
-          this._breakSeconds = 60;
-        } else {
-          if (this._isBreak == true) {
-            this._isBreak = false;
-            this._round += 1;
-            if (this._round == 13) _stopInterval();
-          }
-          this._minutes = 3;
-        }
-        this._skip = true;
-      }
-
-      if (this._isStopped == true && this._seconds == 0) this._isStopped = false;
-
-      if (!this._skip) {
-        if (this._minutes != 0 && this._roundSeconds == 0) {
-          this._minutes -= 1;
-          this._roundSeconds = 60;
-        }
-        if (this._minutes == 3) {
-          this._minutes = 2;
-          this._roundSeconds = 0;
-        }
-      }
-
-      if (this._isBreak == true) {
-        if (!this._skip) this._breakSeconds -= 1;
-        this._seconds = this._breakSeconds;
-      } else {
-        if (!this._skip) {
-          this._roundSeconds -= 1;
-          this._seconds = this._roundSeconds;
-        }
-      }
+      this._buttonText = 'Start';
     });
   }
 
+  /* void _audioClipHandler() {
+    final _tmrDetails = boxingTimer.tmrDetails;
+
+    if (_tmrDetails.minutes == 0 &&
+        (_tmrDetails.seconds == 0 || _tmrDetails.seconds == 10)) {
+      if (_tmrDetails.seconds == 0) {
+        //if (_soundPlayer.cache.fixedPlayer.state != Audio.playState)
+        _soundPlayer.play(Audio.bell);
+      } else {
+        //if (_soundPlayer.cache.fixedPlayer.state != Audio.playState)
+        _soundPlayer.play(Audio.sticks);
+      }
+    }
+  } */
+
   @override
   void dispose() {
-    if (this._timer != null) _timer.cancel();    
-    super.dispose();  
+    this.boxingTimer.cancelTimer();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     _soundPlayer.load();
+    final _tmrDetails = boxingTimer.tmrDetails;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 50, horizontal: 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          RoundInfo(this._isStopped, this._isBreak, this._round.toString()),
-          Time(this._minutes, this._seconds),
-          Controls(_startInterval, _stopInterval, _pauseInterval)
+          RoundInfo(_tmrDetails.isStopped, _tmrDetails.isBreak,
+              _tmrDetails.round.toString()),
+          Time(_tmrDetails.minutes, _tmrDetails.seconds),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 60),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ControlButton(
+                    this._buttonText == 'Start' || this._buttonText == 'Resume'
+                        ? this._start
+                        : this._pause,
+                    this._buttonText,
+                    null),
+                ControlButton(this._prompt, 'Stop', context)
+              ],
+            ),
+          )
         ],
       ),
     );

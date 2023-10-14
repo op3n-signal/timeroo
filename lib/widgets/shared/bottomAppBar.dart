@@ -10,7 +10,7 @@ Widget bottomAppBar(int selectedIndex, Function setIndex, BuildContext context) 
           if(index != selectedIndex) {
             if(index != 0) {
               showDialog(context: context, builder: (BuildContext context) {
-                return PromptDialog(null);
+                return PromptDialog(() => null);
               }).then((value) => {
                 if(value == true)
                   setIndex(index),
