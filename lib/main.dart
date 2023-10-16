@@ -4,11 +4,6 @@ import 'navControl.dart';
 
 void main() => runApp(MyApp());
 
-//create git repo
-//refeactor prompt dialog
-//make timer available globally to decide whether to show dialog
-//other than this, it is ready...MVP
-
 class MyApp extends StatelessWidget {
 
   @override
@@ -17,9 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'Timeroo',
       theme: ThemeData(
           textTheme: const TextTheme(
-            bodyText1: TextStyle(fontSize: 20.0),
-            bodyText2: TextStyle(fontSize: 44.0),
-            button: TextStyle(fontSize: 26.0),
+            bodyLarge: TextStyle(fontSize: 20.0),
+            bodyMedium: TextStyle(fontSize: 44.0),
+            labelLarge: TextStyle(fontSize: 26.0),
           ),
           appBarTheme: const AppBarTheme(
             color: Color.fromRGBO(150, 160, 200, 1)

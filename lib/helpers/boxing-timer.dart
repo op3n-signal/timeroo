@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:timeroo/models/timer_details_model.dart';
+import 'package:timeroo/utility/file.dart';
 
 class BoxingTimer {
   Timer? _timer;
   TimerDetails tmrDetails = TimerDetails();
+  final _soundPlayer = Audio();
 
   void startInterval(Function setState, TimerDetails timerDetailsState) {
     _timer = Timer.periodic(new Duration(seconds: 1), (t) {
@@ -25,7 +27,7 @@ class BoxingTimer {
     _notifyTimerHasStarted();
 
     _decrementRoundMinutes();
-    
+
     _decrementSeconds();
   }
 
@@ -39,13 +41,18 @@ class BoxingTimer {
         tmrDetails.seconds = tmrDetails.roundSeconds;
       }
     }
+
+    playBellSound();
+
+    playStickSound();
   }
 
   void _decrementRoundMinutes() {
     if (!tmrDetails.skip) {
       if (tmrDetails.minutes != 0 && tmrDetails.roundSeconds == 0) {
         tmrDetails.minutes -= 1;
-        tmrDetails.roundSeconds = 60; //must reset seconds when minute decrements
+        tmrDetails.roundSeconds =
+            60; //must reset seconds when minute decrements
       }
       if (tmrDetails.minutes == 3) {
         tmrDetails.minutes = 2;
@@ -57,7 +64,7 @@ class BoxingTimer {
   void _notifyEndOfBreak() {
     if (tmrDetails.minutes == 0 && tmrDetails.seconds == 0) {
       tmrDetails.skip = true;
-      
+
       if (tmrDetails.isBreak == false && tmrDetails.isStopped == false) {
         tmrDetails.isBreak = true;
         tmrDetails.breakSeconds = 60;
@@ -65,7 +72,8 @@ class BoxingTimer {
         if (tmrDetails.isBreak) {
           tmrDetails.isBreak = false;
           tmrDetails.round += 1;
-          if (tmrDetails.round == 13) stopInterval(); //Stop timer when we reach the last round specified in settings
+          if (tmrDetails.round == 13)
+            stopInterval(); //Stop timer when we reach the last round specified in settings
         }
         tmrDetails.minutes = 3;
       }
@@ -80,7 +88,7 @@ class BoxingTimer {
 
   //Destroy the timer
   void cancelTimer() {
-    if(this._timer != null) this._timer!.cancel();
+    if (this._timer != null) this._timer!.cancel();
   }
 
   void stopInterval() {
@@ -94,5 +102,15 @@ class BoxingTimer {
       tmrDetails.minutes = 0;
       tmrDetails.round = 1;
     }
+  }
+
+  void playStickSound() {
+    if (tmrDetails.minutes == 0 && tmrDetails.seconds == 10)
+      _soundPlayer.play(Audio.SticksSoundPath);
+  }
+
+  void playBellSound() {
+    if (tmrDetails.minutes == 0 && tmrDetails.seconds == 0)
+      _soundPlayer.play(Audio.BellSoundPath);
   }
 }

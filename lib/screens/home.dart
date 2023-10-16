@@ -6,8 +6,6 @@ import 'package:timeroo/widgets/shared/button.dart';
 import 'package:timeroo/widgets/shared/dialog.dart';
 import 'package:timeroo/widgets/time.dart';
 
-import '../utility/file.dart';
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -16,7 +14,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final Audio _soundPlayer = Audio();
   final boxingTimer = BoxingTimer();
   String _buttonText = 'Start';
 
@@ -89,7 +86,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    _soundPlayer.load();
     final _tmrDetails = boxingTimer.tmrDetails;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 50, horizontal: 0),
