@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:timeroo/screens/home_screen.dart';
+import 'package:timeroo/screens/settings_screen.dart';
 
-import './screens/home.dart';
-import 'screens/settings.dart';
 import 'widgets/shared/bottomAppBar.dart';
 
 class NavControl extends StatefulWidget {
@@ -15,8 +15,8 @@ class _NavControlState extends State<NavControl> {
 
   //home page is default since first in list
   final List<Widget> _pages = [
-    Home(key: PageStorageKey('Page1')),
-    Settings(key: PageStorageKey('Page2'))
+    HomeScreen(key: PageStorageKey('Page1')),
+    SettingsScreen(key: PageStorageKey('Page2'))
   ];
   final PageStorageBucket _bucket = PageStorageBucket();
   int _selectedIndex = 0;

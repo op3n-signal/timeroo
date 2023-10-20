@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'navControl.dart';
+import 'package:get/get.dart';
+import 'package:timeroo/controller/settings_controller.dart';
+import 'package:timeroo/controller/theme_controller.dart';
+import 'package:timeroo/navControl.dart';
+import 'package:timeroo/utility/themes.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,22 +11,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Timeroo',
-      theme: ThemeData(
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(fontSize: 20.0),
-            bodyMedium: TextStyle(fontSize: 44.0),
-            labelLarge: TextStyle(fontSize: 26.0),
-          ),
-          appBarTheme: const AppBarTheme(
-            color: Color.fromRGBO(150, 160, 200, 1)
-            )
-          ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => NavControl() //nav control holds the routes, home (timer info) is first in list
-      },
+    return GetBuilder<ThemeController>(
+      init: ThemeController(),
+      builder: (controller) => GetMaterialApp(
+        onInit: () {
+          Get
+            ..put(SettingsController());
+        },
+        darkTheme: Themes.dark,
+        themeMode: controller.isDark ? ThemeMode.dark : ThemeMode.light,
+        theme: Themes.light,
+        title: 'Timeroo',
+        home: NavControl()
+      ),
     );
   }
 }

@@ -33,7 +33,7 @@ class _RoundInfoState extends State<RoundInfo> {
     return Container(
       child: Column(
         children: <Widget>[
-          Text(getText())
+          Text(getText(), style: Theme.of(context).textTheme.bodyLarge,)
         ]
       ),
     );

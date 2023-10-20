@@ -15,7 +15,9 @@ class _TimeState extends State<Time> {
   Widget build(BuildContext context) {
     return Container(
       child: Text(
-        this.widget._minutes.toString().padLeft(2, '0') + ':' + this.widget._seconds.toString().padLeft(2, '0')),
+        this.widget._minutes.toString().padLeft(2, '0') + ':' + this.widget._seconds.toString().padLeft(2, '0'),
+        style: Theme.of(context).textTheme.bodyLarge,
+        ),
       );
   }
 }
