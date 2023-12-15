@@ -22,7 +22,8 @@ class TimerController extends GetxController {
   @override
   void onInit() {
     seconds.value = roundSeconds;
-    
+    _audio.init();
+
     super.onInit();
   }
 
@@ -146,7 +147,7 @@ class TimerController extends GetxController {
 
    void playStickSound() {
     if (minutes == 0 && seconds.value == 10)
-      _audio..play(Audio.SticksSoundPath);
+      _audio.play(Audio.SticksSoundPath);
   }
 
   void playBellSound() {
