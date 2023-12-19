@@ -6,7 +6,7 @@ class SettingsController extends GetxController {
   bool isActive = false;
   RxInt warmup = 30.obs;
   RxInt maxRounds = 12.obs;
-  RxInt minutesPerRound = 2.obs;
+  RxInt minutesPerRound = 3.obs;
   RxInt secondsPerBreak = 60.obs;
 
 }
