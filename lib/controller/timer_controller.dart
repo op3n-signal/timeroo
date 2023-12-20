@@ -7,6 +7,8 @@ import 'package:timeroo/utility/file.dart';
 import 'package:timeroo/widgets/shared/dialog.dart';
 
 class TimerController extends GetxController {
+  static TimerController get to => Get.find<TimerController>();
+  
   final _audio = Audio();
   Timer _timer = Timer(Duration.zero, () => null);
   int round = 1;
@@ -123,7 +125,7 @@ class TimerController extends GetxController {
 
       isStopped = true;
       isBreak = false;
-      roundSeconds = 5;
+      roundSeconds = 30;
       seconds.value = roundSeconds;
       minutes = 0;
       round = 1;

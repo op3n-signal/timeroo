@@ -29,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Text('Warmup seconds: ' + warmup.toString()),
+                      Text('Warmup seconds: ' + warmup.toString(), style: Theme.of(context).textTheme.bodySmall,),
                       Slider(
                         min: 10,
                         max: 60,
@@ -44,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Text('Rounds: ' + maxRound.toString()),
+                      Text('Rounds: ' + maxRound.toString(), style: Theme.of(context).textTheme.bodySmall,),
                       Slider(
                         min: 1,
                         max: 20,
@@ -59,7 +59,7 @@ class SettingsScreen extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Text('Minutes Per Round: ' + minutesPerRound.toString()),
+                      Text('Minutes Per Round: ' + minutesPerRound.toString(), style: Theme.of(context).textTheme.bodySmall,),
                       Slider(
                         min: 1,
                         max: 10,
@@ -74,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Text('Seconds Per Break: ' + secondsPerBreak.toString()),
+                      Text('Seconds Per Break: ' + secondsPerBreak.toString(), style: Theme.of(context).textTheme.bodySmall,),
                       Slider(
                         min: 10,
                         max: 60,
@@ -87,7 +87,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 15,),
                 Text(
-                  'Settings are automatically saved. \nYou may navigate back to timer anytime.', 
+                  'Settings are automatically saved. \nYou may navigate back to the timer anytime.', 
                   style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),

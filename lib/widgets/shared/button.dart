@@ -10,6 +10,7 @@ class ControlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
       child: ElevatedButton(
         onPressed: () {
           if(this._context != null)
@@ -17,7 +18,7 @@ class ControlButton extends StatelessWidget {
           else
             this._method!();
         },
-        child: Text(this._buttonText!)
+        child: Text(this._buttonText!, style: Theme.of(context).textTheme.bodyMedium,)
         )
     );
   }
