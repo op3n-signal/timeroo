@@ -8,7 +8,7 @@ class Audio {
   static AudioCache player = AudioCache();
 
   void init() async {
-    _player.setVolume(0.6);
+    _player.setVolume(0.2);
     await _player.setReleaseMode(ReleaseMode.stop);
     await _player.setAudioContext(AudioContext(
         android: AudioContextAndroid(
