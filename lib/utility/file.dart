@@ -11,8 +11,9 @@ class Audio {
     _player.setVolume(0.2);
     await _player.setReleaseMode(ReleaseMode.stop);
     await _player.setAudioContext(AudioContext(
-        iOS: AudioContextIOS(options: [AVAudioSessionOptions.duckOthers]),
+        iOS: AudioContextIOS(options: [AVAudioSessionOptions.mixWithOthers]),
         android: AudioContextAndroid(
+            stayAwake: true,
             audioFocus: AndroidAudioFocus.gainTransientMayDuck)));
   }
 
