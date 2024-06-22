@@ -17,12 +17,9 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  RoundInfo(
-                      controller.isStopped,
-                      controller.isBreak,
+                  RoundInfo(controller.isStopped, controller.isBreak,
                       controller.round.toString()),
-                  Time(controller.minutes,
-                      controller.seconds.value),
+                  Time(controller.minutes, controller.seconds.value),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 60),
                     child: Row(
