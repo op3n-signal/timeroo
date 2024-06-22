@@ -13,7 +13,6 @@ class Audio {
     await _player.setAudioContext(AudioContext(
         iOS: AudioContextIOS(options: [AVAudioSessionOptions.mixWithOthers]),
         android: AudioContextAndroid(
-            stayAwake: true,
             audioFocus: AndroidAudioFocus.gainTransientMayDuck)));
   }
 
