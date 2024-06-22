@@ -20,6 +20,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   audioplayers: ^5.2.1
   get: ^4.6.5
+  wakelock_plus: ^1.1.4
 
 dev_dependencies:
   flutter_test:

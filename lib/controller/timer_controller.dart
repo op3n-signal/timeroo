@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:timeroo/controller/settings_controller.dart';
 import 'package:timeroo/utility/file.dart';
 import 'package:timeroo/widgets/shared/dialog.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class TimerController extends GetxController {
   static TimerController get to => Get.find<TimerController>();
@@ -113,12 +114,17 @@ class TimerController extends GetxController {
   }
 
   void start() {
+    //Prevent the phone from sleeping
+    WakelockPlus.enable();
+
     buttonText.value = 'Pause';
 
     startInterval();
   }
 
   void stopInterval() {
+    WakelockPlus.disable();
+
     _cancelTimer();
 
     isStopped = true;
@@ -165,6 +171,8 @@ class TimerController extends GetxController {
 
   @override
   void dispose() {
+    WakelockPlus.disable();
+
     _timer.cancel();
 
     super.dispose();
