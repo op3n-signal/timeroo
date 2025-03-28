@@ -12,6 +12,7 @@ class ControlButton extends StatelessWidget {
     return Container(
       height: 50,
       child: ElevatedButton(
+        style: Theme.of(context).elevatedButtonTheme.style,
         onPressed: () {
           if(this._context != null)
             this._method!(this._context);
