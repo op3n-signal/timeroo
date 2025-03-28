@@ -21,8 +21,11 @@ class Themes {
 
   static final dark = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: Colors.lightBlue[800],
-    scaffoldBackgroundColor: Colors.black45,
+    primaryColor: Colors.white,
+    scaffoldBackgroundColor: Color.fromARGB(255, 36, 36, 36),
+    bottomAppBarTheme: BottomAppBarTheme(
+      color: Color.fromARGB(255, 21, 21, 21),
+    ),
     textTheme: _TextTheme,
   );
 }

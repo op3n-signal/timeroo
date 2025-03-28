@@ -8,22 +8,19 @@ import 'package:timeroo/utility/themes.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ThemeController>(
+    return GetX<ThemeController>(
       init: ThemeController(),
       builder: (controller) => GetMaterialApp(
-        onInit: () {
-          Get
-            ..put(SettingsController());
-        },
-        darkTheme: Themes.dark,
-        themeMode: controller.isDark ? ThemeMode.dark : ThemeMode.light,
-        theme: Themes.light,
-        title: 'Timeroo',
-        home: NavControl()
-      ),
+          onInit: () {
+            Get..put(SettingsController());
+          },
+          darkTheme: Themes.dark,
+          themeMode: ThemeMode.light,
+          theme: controller.isDark.value ? Themes.dark : Themes.light,
+          title: 'Timeroo',
+          home: NavControl()),
     );
   }
 }

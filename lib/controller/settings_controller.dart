@@ -8,5 +8,4 @@ class SettingsController extends GetxController {
   RxInt maxRounds = 12.obs;
   RxInt minutesPerRound = 3.obs;
   RxInt secondsPerBreak = 60.obs;
-
 }

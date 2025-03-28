@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import 'package:timeroo/controller/settings_controller.dart';
 import 'package:timeroo/utility/file.dart';
 import 'package:timeroo/widgets/shared/dialog.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class TimerController extends GetxController {
   static TimerController get to => Get.find<TimerController>();
-  
+
   final _audio = Audio();
   Timer _timer = Timer(Duration.zero, () => null);
   int round = 1;
@@ -75,18 +76,16 @@ class TimerController extends GetxController {
     }
   }
 
-   //This is so we don't run certain sections until the timer has Offically started
+  //This is so we don't run certain sections until the timer has Offically started
   void _notifyTimerHasStarted() {
-    if (isStopped && seconds.value == 0)
-      isStopped = false;
+    if (isStopped && seconds.value == 0) isStopped = false;
   }
 
   void _decrementRoundMinutes() {
     if (!skip) {
       if (minutes != 0 && roundSeconds == 0) {
         minutes -= 1;
-        roundSeconds =
-            60; //must reset seconds when minute decrements
+        roundSeconds = 60; //must reset seconds when minute decrements
       }
 
       final maxRounds = SettingsController.to.maxRounds.value;
@@ -115,20 +114,25 @@ class TimerController extends GetxController {
   }
 
   void start() {
+    //Prevent the phone from sleeping
+    WakelockPlus.enable();
+
     buttonText.value = 'Pause';
 
     startInterval();
   }
 
   void stopInterval() {
-      _cancelTimer();
+    WakelockPlus.disable();
 
-      isStopped = true;
-      isBreak = false;
-      roundSeconds = 30;
-      seconds.value = roundSeconds;
-      minutes = 0;
-      round = 1;
+    _cancelTimer();
+
+    isStopped = true;
+    isBreak = false;
+    roundSeconds = 30;
+    seconds.value = roundSeconds;
+    minutes = 0;
+    round = 1;
   }
 
   void pause() {
@@ -139,22 +143,20 @@ class TimerController extends GetxController {
 
   //Destroy the timer
   void _cancelTimer() {
-      this._timer.cancel();
-      SettingsController.to.isActive = false;
+    this._timer.cancel();
+    SettingsController.to.isActive = false;
   }
 
   void reset() {
     buttonText.value = 'Start';
   }
 
-   void playStickSound() {
-    if (minutes == 0 && seconds.value == 10)
-      _audio.play(Audio.SticksSoundPath);
+  void playStickSound() {
+    if (minutes == 0 && seconds.value == 10) _audio.play(Audio.SticksSoundPath);
   }
 
   void playBellSound() {
-    if (minutes == 0 && seconds.value == 0)
-      _audio.play(Audio.BellSoundPath);
+    if (minutes == 0 && seconds.value == 0) _audio.play(Audio.BellSoundPath);
   }
 
   void prompt(BuildContext context) {
@@ -169,6 +171,8 @@ class TimerController extends GetxController {
 
   @override
   void dispose() {
+    WakelockPlus.disable();
+
     _timer.cancel();
 
     super.dispose();

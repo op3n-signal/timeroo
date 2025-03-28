@@ -12,7 +12,6 @@ class NavControl extends StatefulWidget {
 }
 
 class _NavControlState extends State<NavControl> {
-
   //home page is default since first in list
   final List<Widget> _pages = [
     HomeScreen(key: PageStorageKey('Page1')),
@@ -21,7 +20,8 @@ class _NavControlState extends State<NavControl> {
   final PageStorageBucket _bucket = PageStorageBucket();
   int _selectedIndex = 0;
 
-  Widget _bottomNavigationBar(BuildContext context, int selectedIndex) => bottomAppBar(selectedIndex, setIndex, context);
+  Widget _bottomNavigationBar(BuildContext context, int selectedIndex) =>
+      bottomAppBar(selectedIndex, setIndex, context);
 
   void setIndex(int index) {
     setState(() => _selectedIndex = index);
@@ -30,7 +30,10 @@ class _NavControlState extends State<NavControl> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _bottomNavigationBar(context, _selectedIndex),
+      bottomNavigationBar: _bottomNavigationBar(
+        context,
+        _selectedIndex,
+      ),
       body: PageStorage(
         child: _pages[this._selectedIndex],
         bucket: _bucket,

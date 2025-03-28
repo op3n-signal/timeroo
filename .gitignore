@@ -41,3 +41,6 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 upload_certificate.pem
+
+# FVM Version Cache
+.fvm/

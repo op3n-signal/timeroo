@@ -5,7 +5,7 @@ description: A new Flutter project.
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.1.0+6
+version: 1.1.1+7
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -20,6 +20,13 @@ dependencies:
   cupertino_icons: ^1.0.8
   audioplayers: ^5.2.1
   get: ^4.7.2
+  flutter_launcher_icons: ^0.13.1
+  get: ^4.6.5
+  wakelock_plus: ^1.1.4
+
+flutter_launcher_icons:
+  ios: true
+  image_path_ios: "assets/icon/icon.png"
 
 dev_dependencies:
   flutter_test:
